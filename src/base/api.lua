@@ -403,6 +403,12 @@
 			kind = "keypath",
 			scope = "container",
 		},
+		
+		xcodebuildoptions =
+		{
+			kind = "list",
+			scope = "project",
+		},
 
 	}
 

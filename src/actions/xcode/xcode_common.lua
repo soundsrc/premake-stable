@@ -837,6 +837,10 @@
 			_p(4,'WARNING_CFLAGS = "-Wall";')
 		end
 		
+		for _,v in ipairs(cfg.xcodebuildoptions) do
+			_p(4,v)
+		end
+
 		_p(3,'};')
 		_p(3,'name = "%s";', cfgname)
 		_p(2,'};')
