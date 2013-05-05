@@ -56,6 +56,7 @@
 			{ "linux",    "Linux" },
 			{ "macosx",   "Apple Mac OS X" },
 			{ "ios",      "iOS" },
+			{ "android",  "Android NDK" },
 			{ "solaris",  "Solaris" },
 			{ "windows",  "Microsoft Windows" },
 		}

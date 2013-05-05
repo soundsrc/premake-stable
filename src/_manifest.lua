@@ -73,6 +73,11 @@
 		-- Xcode4 action
 		"actions/xcode/xcode4_workspace.lua",
 
+		-- Android action
+ 		"actions/android/_android.lua",
+ 		"actions/android/android_solution.lua",
+ 		"actions/android/android_project.lua",
+
 		-- Clean action
 		"actions/clean/_clean.lua",
 	}
