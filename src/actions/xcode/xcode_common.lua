@@ -192,7 +192,7 @@
 	function xcode.preparesolution(sln)
 		-- create and cache a list of supported platforms
 		sln.xcode = { }
-		sln.xcode.platforms = premake.filterplatforms(sln, premake.action.current().valid_platforms, "Universal")
+		sln.xcode.platforms = premake.filterplatforms(sln, premake.action.current().valid_platforms, premake.action.current().default_platform)
 		
 		for prj in premake.solution.eachproject(sln) do
 			-- need a configuration to get the target information
@@ -730,12 +730,17 @@
 			Universal32 = "$(ARCHS_STANDARD_32_BIT)",
 			Universal64 = "$(ARCHS_STANDARD_64_BIT)",
 			Universal = "$(ARCHS_STANDARD_32_64_BIT)",
+			arm = "$(ARCHS_STANDARD_32_BIT)",
 		}
 		_p(4,'ARCHS = "%s";', archs[cfg.platform])
 		
 		local targetdir = path.getdirectory(cfg.buildtarget.bundlepath)
 		if targetdir ~= "." then
 			_p(4,'CONFIGURATION_BUILD_DIR = "$(SYMROOT)";');
+		end
+
+		if os.get() == "ios" then
+			_p(4,'SDKROOT = iphoneos;')
 		end
 		
 		_p(4,'CONFIGURATION_TEMP_DIR = "$(OBJROOT)";')

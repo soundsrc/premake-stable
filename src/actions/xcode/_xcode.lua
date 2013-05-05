@@ -79,9 +79,10 @@
 			Universal32 = "32-bit Universal", 
 			Universal64 = "64-bit Universal", 
 			Universal = "Universal",
+			arm = "ARM",
 		},
 		
-		default_platform = "Universal",
+		default_platform = (os.get() == "ios" and "arm" or "Universal"),
 		
 		onsolution = function(sln)
 			premake.generate(sln, "%%.xcworkspace/contents.xcworkspacedata", premake.xcode4.workspace_generate)
