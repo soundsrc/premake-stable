@@ -430,6 +430,13 @@
 			kind = "string",
 			scope = "solution",
 		},
+		
+		-- additional options to insert into the Application.mk file
+		androidapplicationoptions =
+		{
+			kind = "list",
+			scope = "solution",
+		},
 	}
 
 

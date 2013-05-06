@@ -1,10 +1,11 @@
 
 	function premake.android.solution(sln)
-
-		_p('APP_PLATFORM := android-7')
-		_p('APP_ABI := armeabi-v7a')
-		_p('APP_STL := gnustl_static')
-
+		_p('APP_PLATFORM := %s', sln.androidtargetid)
+		if sln.androidapplicationoptions then
+			for _,v in ipairs(sln.androidapplicationoptions) do
+				_p(v)
+			end
+		end
 	end
 
 	function premake.android.androidmk(sln)
