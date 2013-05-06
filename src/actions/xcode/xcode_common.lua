@@ -748,7 +748,8 @@
 			_p(4,'SDKROOT = iphoneos;')
 		end
 		
-		_p(4,'CONFIGURATION_TEMP_DIR = "$(OBJROOT)";')
+		-- FIXME: These settings don't play well with XCode for certain things
+		--_p(4,'CONFIGURATION_TEMP_DIR = "$(OBJROOT)";')
 		
 		if cfg.flags.Symbols then
 			_p(4,'COPY_PHASE_STRIP = NO;')
@@ -799,7 +800,8 @@
 		xcode.printlist(cfg.includedirs, 'HEADER_SEARCH_PATHS')
 		xcode.printlist(cfg.libdirs, 'LIBRARY_SEARCH_PATHS')
 		
-		_p(4,'OBJROOT = "%s";', cfg.objectsdir)
+		-- FIXME: These settings don't play well with XCode
+		--_p(4,'OBJROOT = "%s";', cfg.objectsdir)
 
 		_p(4,'ONLY_ACTIVE_ARCH = %s;',iif(premake.config.isdebugbuild(cfg),'YES','NO'))
 		
