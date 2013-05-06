@@ -22,13 +22,27 @@
 		tr.project = prj
 
 		local isvpath
+		local isasset
+		local assetname
 
 		local function onadd(node)
 			node.isvpath = isvpath
+			if isasset and assetname == node.name then
+				node.isasset = isasset
+			end
 		end
 
 		for fcfg in premake.project.eachfile(prj) do
 			isvpath = (fcfg.name ~= fcfg.vpath)
+			isasset = false
+			local node = premake.tree.add(tr, fcfg.vpath, onadd)
+			node.cfg = fcfg
+		end
+		
+		for fcfg in premake.project.eachasset(prj) do
+			isvpath = (fcfg.name ~= fcfg.vpath)
+			isasset = true
+			assetname = path.getname(fcfg.vpath)
 			local node = premake.tree.add(tr, fcfg.vpath, onadd)
 			node.cfg = fcfg
 		end
@@ -70,6 +84,25 @@
 		if not prj.project then prj = premake.getconfig(prj) end
 		local i = 0
 		local t = prj.files
+		return function ()
+			i = i + 1
+			if (i <= #t) then
+				local fcfg = prj.__fileconfigs[t[i]]
+				fcfg.vpath = premake.project.getvpath(prj, fcfg.name)
+				return fcfg
+			end
+		end
+	end
+	
+--
+-- Iterator for a project's assets; returns a file configuration object.
+--
+
+	function premake.project.eachasset(prj)
+		-- project root config contains the file config list
+		if not prj.project then prj = premake.getconfig(prj) end
+		local i = 0
+		local t = prj.assets
 		return function ()
 			i = i + 1
 			if (i <= #t) then

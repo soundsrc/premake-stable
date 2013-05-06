@@ -18,6 +18,11 @@
 --
 
 	function xcode.getbuildcategory(node)
+
+		if node.isasset then
+			return "Resources"
+		end
+
 		local categories = {
 			[".a"] = "Frameworks",
 			[".c"] = "Sources",

@@ -437,6 +437,14 @@
 			kind = "list",
 			scope = "solution",
 		},
+		
+		-- similar to files except these files are marked as assets
+		-- used mainly for XCode projects
+		assets =
+		{
+			kind  = "filelist",
+			scope = "config",
+		},
 	}
 
 
