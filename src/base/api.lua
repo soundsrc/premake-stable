@@ -445,6 +445,18 @@
 			kind  = "filelist",
 			scope = "config",
 		},
+		
+		-- on supported generators, this command is similar to "files"
+		-- except these files marked to be included in the project
+		-- but not set to built by any targets
+		-- i.e. we can include a .cpp in a project but not have it compiled
+		-- by any targets
+		otherfiles =
+		{
+			kind  = "filelist",
+			scope = "config",
+		},
+
 	}
 
 

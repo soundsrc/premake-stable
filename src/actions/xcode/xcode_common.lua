@@ -257,7 +257,7 @@
 		_p('/* Begin PBXBuildFile section */')
 		tree.traverse(tr, {
 			onnode = function(node)
-				if node.buildid then
+				if node.buildid and not node.isotherfile then
 					_p(2,'%s /* %s in %s */ = {isa = PBXBuildFile; fileRef = %s /* %s */; };', 
 						node.buildid, node.name, xcode.getbuildcategory(node), node.id, node.name)
 				end

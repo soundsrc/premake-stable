@@ -471,11 +471,24 @@
 				ClInclude = {},
 				None = {},
 				ResourceCompile = {},
+				ClCompileNoBuild = {},
 			}
 
 			for file in premake.project.eachfile(prj) do
 				if path.iscppfile(file.name) then
 					table.insert(sortedfiles.ClCompile, file)
+				elseif path.iscppheader(file.name) then
+					table.insert(sortedfiles.ClInclude, file)
+				elseif path.isresourcefile(file.name) then
+					table.insert(sortedfiles.ResourceCompile, file)
+				else
+					table.insert(sortedfiles.None, file)
+				end
+			end
+			
+			for file in premake.project.eachotherfile(prj) do
+				if path.iscppfile(file.name) then
+					table.insert(sortedfiles.ClCompileNoBuild, file)
 				elseif path.iscppheader(file.name) then
 					table.insert(sortedfiles.ClInclude, file)
 				elseif path.isresourcefile(file.name) then
@@ -520,7 +533,8 @@
 	function vc2010.compilerfilesgroup(prj)
 		local configs = prj.solution.vstudio_configs
 		local files = vc2010.getfilegroup(prj, "ClCompile")
-		if #files > 0  then
+		local nobuildfiles = vc2010.getfilegroup(prj, "ClCompileNoBuild")
+		if #files > 0 or #nobuildfiles > 0 then
 			local config_mappings = {}
 			for _, cfginfo in ipairs(configs) do
 				local cfg = premake.getconfig(prj, cfginfo.src_buildcfg, cfginfo.src_platform)
@@ -534,6 +548,18 @@
 				local translatedpath = path.translate(file.name, "\\")
 				_p(2,'<ClCompile Include=\"%s\">', translatedpath)
 				for _, cfginfo in ipairs(configs) do
+					if config_mappings[cfginfo] and translatedpath == config_mappings[cfginfo] then
+						_p(3,'<PrecompiledHeader '.. if_config_and_platform() .. '>Create</PrecompiledHeader>', premake.esc(cfginfo.name))
+						config_mappings[cfginfo] = nil  --only one source file per pch
+					end
+				end
+				_p(2,'</ClCompile>')
+			end
+			for _, file in ipairs(nobuildfiles) do
+				local translatedpath = path.translate(file.name, "\\")
+				_p(2,'<ClCompile Include=\"%s\">', translatedpath)
+				for _, cfginfo in ipairs(configs) do
+					_p(3,'<ExcludedFromBuild Condition="\'$(Configuration)\'==\'%s\'">true</ExcludedFromBuild>', premake.esc(cfginfo.src_buildcfg))
 					if config_mappings[cfginfo] and translatedpath == config_mappings[cfginfo] then
 						_p(3,'<PrecompiledHeader '.. if_config_and_platform() .. '>Create</PrecompiledHeader>', premake.esc(cfginfo.name))
 						config_mappings[cfginfo] = nil  --only one source file per pch
