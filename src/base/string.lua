@@ -48,3 +48,12 @@
 	function string.startswith(haystack, needle)
 		return (haystack:find(needle, 1, true) == 1)
 	end
+
+
+--
+-- Escapes a filename for the shell
+-- TODO: this is a very basic implementation.. don't depend on this for security
+--
+	function string.shellescape(str)
+		return string.gsub(str, '([\]|&;<>()$`\\"\' \t\n*?\[#=\~%%])', '\\%1')
+	end

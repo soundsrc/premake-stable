@@ -92,3 +92,10 @@
 		description = "Display version information"
 	}
 	
+	newoption 
+	{
+		trigger     = "android",
+		value       = "VALUE",
+		description = "Path to the android binary in the SDK.",
+	}
+	

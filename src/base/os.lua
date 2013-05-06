@@ -14,6 +14,17 @@
 		return os.execute(cmd)
 	end
 
+--
+-- Same as os.executef(), but also escapes the input
+--
+	function os.executeshellf(cmd, ...)
+		args = {}
+		for k,v in pairs(arg) do
+			args[k] = string.shellescape(v)
+		end
+		return os.executef(cmd, unpack(args))
+	end
+
 
 --
 -- Scan the well-known system locations for a particular library.
