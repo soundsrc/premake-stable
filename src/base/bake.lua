@@ -697,6 +697,62 @@
 			end
 		end
 		cfg.files = files
+		
+		if cfg.unitybuild == "true" then
+			unity_build_file_list = { }
+			
+			i = 0
+			file_count = 0
+			unity_build_file = nil
+
+			unity_files = {}
+			regular_files = {}
+			for _,f in ipairs(cfg.files) do
+
+				-- handle splitting of unity build files
+				if not unity_build_file or file_count >= 30 then
+					unity_build_fname = cfg.project.name .. "_UnityBuild" .. i .. ".cpp"
+					i = i + 1
+					table.insert(unity_build_file_list, unity_build_fname)
+					file_count = 0
+					
+					if unity_build_file then 
+						unity_build_file:close() 
+					end
+					unity_build_file = io.open(unity_build_fname,"w")
+				end
+				
+				ext = string.lower(path.getextension(f))
+				if ext == ".c" then
+					unity_build_file:write("extern \"C\" {\n")
+					unity_build_file:write("#include \"" .. f .. "\"\n")
+					unity_build_file:write("}\n")
+					file_count = file_count + 1
+					table.insert(unity_files,f)
+				elseif ext == ".cpp" then
+					unity_build_file:write("#include \"" .. f .. "\"\n")
+					file_count = file_count + 1
+					table.insert(unity_files,f)
+				else
+					table.insert(regular_files,f)
+				end
+			end
+			
+			if unity_build_file then
+				unity_build_file:close()
+			end
+			
+			-- disable pchheader
+			cfg.pchheader = nil
+			cfg.pchsource = nil
+
+			-- replace files with unity build files
+			cfg.otherfiles = unity_files
+			cfg.files = unity_build_file_list
+			for _,v in pairs(regular_files) do
+				table.insert(cfg.files,v)
+			end
+		end
 
 		-- fixup the data		
 		for name, field in pairs(premake.fields) do

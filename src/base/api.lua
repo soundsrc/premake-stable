@@ -457,6 +457,14 @@
 			scope = "config",
 		},
 
+		unitybuild =
+		{
+			kind = "string",
+			scope = "project",
+			allowed = {
+				"true", "false"
+			},
+		},
 	}
 
 
