@@ -747,7 +747,7 @@
 			cfg.pchsource = nil
 
 			-- replace files with unity build files
-			cfg.otherfiles = unity_files
+			cfg.otherfiles = table.join(cfg.otherfiles, unity_files)
 			cfg.files = unity_build_file_list
 			for _,v in pairs(regular_files) do
 				table.insert(cfg.files,v)
