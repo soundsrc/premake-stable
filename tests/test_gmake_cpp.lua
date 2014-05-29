@@ -83,9 +83,9 @@ ifeq ($(config),debug)
   ALL_CXXFLAGS  += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -s
-  LIBS      +=
   LDDEPS    +=
-  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(ALL_LDFLAGS)
+  LIBS      += $(LDDEPS)
+  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -117,9 +117,9 @@ ifeq ($(config),debugps3)
   ALL_CXXFLAGS  += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -s
-  LIBS      +=
   LDDEPS    +=
-  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(ALL_LDFLAGS)
+  LIBS      += $(LDDEPS)
+  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -148,9 +148,9 @@ ifeq ($(config),debug64)
   ALL_CXXFLAGS  += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -s -m64 -L/usr/lib64
-  LIBS      +=
   LDDEPS    +=
-  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(ALL_LDFLAGS)
+  LIBS      += $(LDDEPS)
+  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -180,8 +180,8 @@ ifeq ($(config),debuguniv32)
   ALL_CXXFLAGS  += $(CXXFLAGS) $(ALL_CFLAGS)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -s -arch i386 -arch ppc
-  LIBS      +=
   LDDEPS    +=
+  LIBS      += $(LDDEPS)
   LINKCMD    = libtool -o $(TARGET) $(OBJECTS)
   define PREBUILDCMDS
   endef

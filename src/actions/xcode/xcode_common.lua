@@ -37,6 +37,8 @@
 			[".nib"] = "Resources",
 			[".xib"] = "Resources",
 			[".icns"] = "Resources",
+			[".bmp"] = "Resources",
+			[".wav"] = "Resources",
 		}
 		return categories[path.getextension(node.name)]
 	end
@@ -90,6 +92,8 @@
 			[".strings"]   = "text.plist.strings",
 			[".xib"]       = "file.xib",
 			[".icns"]      = "image.icns",
+			[".bmp"]       = "image.bmp",
+			[".wav"]       = "audio.wav",
 		}
 		return types[path.getextension(node.path)] or "text"
 	end
@@ -229,7 +233,8 @@
 		if #list > 0 then
 			_p(4,'%s = (', tag)
 			for _, item in ipairs(list) do
-				_p(5, '"%s",', item)
+				local escaped_item = item:gsub("\"", "\\\"")
+				_p(5, '"%s",', escaped_item)
 			end
 			_p(4,');')
 		end
@@ -319,18 +324,36 @@
 					local pth, src
 					if xcode.isframework(node.path) then
 						--respect user supplied paths
-						if string.find(node.path,'/')  then
-							if string.find(node.path,'^%.')then
+						-- look for special variable-starting paths for different sources
+						local nodePath = node.path
+						local _, matchEnd, variable = string.find(nodePath, "^%$%((.+)%)/")
+						if variable then
+							-- by skipping the last '/' we support the same absolute/relative
+							-- paths as before
+							nodePath = string.sub(nodePath, matchEnd + 1)
+						end
+						if string.find(nodePath,'/')  then
+							if string.find(nodePath,'^%.')then
 								error('relative paths are not currently supported for frameworks')
 							end
-							pth = node.path
+							pth = nodePath
 						else
-							pth = "/System/Library/Frameworks/" .. node.path
+							pth = "/System/Library/Frameworks/" .. nodePath
 						end
-						src = "absolute"
+						-- if it starts with a variable, use that as the src instead
+						if variable then
+							src = variable
+							-- if we are using a different source tree, it has to be relative
+							-- to that source tree, so get rid of any leading '/'
+							if string.find(pth, '^/') then
+								pth = string.sub(pth, 2)
+							end
+						else
+							src = "<absolute>"
+						end
 					else
 						-- something else; probably a source code file
-						src = "group"
+						src = "<group>"
 
 						-- if the parent node is virtual, it won't have a local path
 						-- of its own; need to use full relative path from project
@@ -341,7 +364,7 @@
 						end
 					end
 					
-					_p(2,'%s /* %s */ = {isa = PBXFileReference; lastKnownFileType = %s; name = "%s"; path = "%s"; sourceTree = "<%s>"; };',
+					_p(2,'%s /* %s */ = {isa = PBXFileReference; lastKnownFileType = %s; name = "%s"; path = "%s"; sourceTree = "%s"; };',
 						node.id, node.name, xcode.getfiletype(node), node.name, pth, src)
 				end
 			end
@@ -433,20 +456,37 @@
 		for _, node in ipairs(tr.products.children) do
 			local name = tr.project.name
 			
+			-- This function checks whether there are build commands of a specific
+			-- type to be executed; they will be generated correctly, but the project
+			-- commands will not contain any per-configuration commands, so the logic
+			-- has to be extended a bit to account for that.
+			local function hasBuildCommands(which)
+				-- standard check...this is what existed before
+				if #tr.project[which] > 0 then
+					return true
+				end
+				-- what if there are no project-level commands? check configs...
+				for _, cfg in ipairs(tr.configs) do
+					if #cfg[which] > 0 then
+						return true
+					end
+				end
+			end
+			
 			_p(2,'%s /* %s */ = {', node.targetid, name)
 			_p(3,'isa = PBXNativeTarget;')
 			_p(3,'buildConfigurationList = %s /* Build configuration list for PBXNativeTarget "%s" */;', node.cfgsection, name)
 			_p(3,'buildPhases = (')
-			if #tr.project.prebuildcommands > 0 then
+			if hasBuildCommands('prebuildcommands') then
 				_p(4,'9607AE1010C857E500CD1376 /* Prebuild */,')
 			end
 			_p(4,'%s /* Resources */,', node.resstageid)
 			_p(4,'%s /* Sources */,', node.sourcesid)
-			if #tr.project.prelinkcommands > 0 then
+			if hasBuildCommands('prelinkcommands') then
 				_p(4,'9607AE3510C85E7E00CD1376 /* Prelink */,')
 			end
 			_p(4,'%s /* Frameworks */,', node.fxstageid)
-			if #tr.project.postbuildcommands > 0 then
+			if hasBuildCommands('postbuildcommands') then
 				_p(4,'9607AE3710C85E8F00CD1376 /* Postbuild */,')
 			end
 			_p(3,');')
