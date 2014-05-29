@@ -735,7 +735,7 @@
 			Universal32 = "$(ARCHS_STANDARD_32_BIT)",
 			Universal64 = "$(ARCHS_STANDARD_64_BIT)",
 			Universal = "$(ARCHS_STANDARD_32_64_BIT)",
-			arm = "$(ARCHS_STANDARD_32_BIT)",
+			arm = "$(ARCHS_STANDARD)",
 		}
 		_p(4,'ARCHS = "%s";', archs[cfg.platform])
 		
