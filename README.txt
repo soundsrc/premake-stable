@@ -51,7 +51,7 @@ MODIFICATIONS
 		Options to add to Application.mk (android)
 		eg.
 		androidapplicationoptions {
-			"APP_STL := gntstl_static"
+			"APP_STL := gnustl_static"
 		}
 		
 	assets(filelist):
@@ -60,6 +60,9 @@ MODIFICATIONS
 		assets {
 			"assets/*.png"
 		}
+
+	folderrefs(filelist):
+		XCode specific. Similar to assets, except link files as folder references (blue folders).
 
 	otherfiles(filelist):
 		Files to be added to the project but NOT compiled (XCode,MSVC)

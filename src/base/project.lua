@@ -23,6 +23,7 @@
 
 		local isvpath
 		local isasset
+		local isfolderref
 		local isotherfile
 		local assetname
 
@@ -30,6 +31,9 @@
 			node.isvpath = isvpath
 			if isasset and assetname == node.name then
 				node.isasset = isasset
+			end
+			if isfolderref and assetname == node.name then
+				node.isfolderref = isfolderref
 			end
 			if isotherfile and assetname == node.name then
 				node.isotherfile = isotherfile
@@ -47,6 +51,17 @@
 		for fcfg in premake.project.eachasset(prj) do
 			isvpath = (fcfg.name ~= fcfg.vpath)
 			isasset = true
+			isfolderref = false
+			isotherfile = false
+			assetname = path.getname(fcfg.vpath)
+			local node = premake.tree.add(tr, fcfg.vpath, onadd)
+			node.cfg = fcfg
+		end
+
+		for fcfg in premake.project.eachfolderrefs(prj) do
+			isvpath = (fcfg.name ~= fcfg.vpath)
+			isasset = false
+			isfolderref = true
 			isotherfile = false
 			assetname = path.getname(fcfg.vpath)
 			local node = premake.tree.add(tr, fcfg.vpath, onadd)
@@ -56,6 +71,7 @@
 		for fcfg in premake.project.eachotherfile(prj) do
 			isvpath = (fcfg.name ~= fcfg.vpath)
 			isasset = false
+			isfolderref = false
 			isotherfile = true
 			assetname = path.getname(fcfg.vpath)
 			local node = premake.tree.add(tr, fcfg.vpath, onadd)
@@ -118,6 +134,25 @@
 		if not prj.project then prj = premake.getconfig(prj) end
 		local i = 0
 		local t = prj.assets
+		return function ()
+			i = i + 1
+			if (i <= #t) then
+				local fcfg = prj.__fileconfigs[t[i]]
+				fcfg.vpath = premake.project.getvpath(prj, fcfg.name)
+				return fcfg
+			end
+		end
+	end
+
+--
+-- Iterator for a project's folderrefs; returns a file configuration object.
+--
+
+	function premake.project.eachfolderrefs(prj)
+		-- project root config contains the file config list
+		if not prj.project then prj = premake.getconfig(prj) end
+		local i = 0
+		local t = prj.folderrefs
 		return function ()
 			i = i + 1
 			if (i <= #t) then

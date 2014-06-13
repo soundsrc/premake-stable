@@ -445,6 +445,13 @@
 			kind  = "filelist",
 			scope = "config",
 		},
+
+		-- xcode only. specify folder references
+		folderrefs =
+		{
+			kind  = "filelist",
+			scope = "config",
+		},
 		
 		-- on supported generators, this command is similar to "files"
 		-- except these files marked to be included in the project

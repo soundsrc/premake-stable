@@ -19,7 +19,7 @@
 
 	function xcode.getbuildcategory(node)
 
-		if node.isasset then
+		if node.isasset or node.isfolderref then
 			return "Resources"
 		end
 
@@ -73,6 +73,11 @@
 --
 
 	function xcode.getfiletype(node)
+
+		if node.isfolderref then
+			return "folder"
+		end
+
 		local types = {
 			[".c"]         = "sourcecode.c.c",
 			[".cc"]        = "sourcecode.cpp.cpp",
