@@ -59,7 +59,7 @@
 		end,
 
 		oncleansolution = function(sln)
-			premake.clean.file(sln, "jni/Application.mk")
+			premake.clean.file(sln, "jni/Android.mk")
 		end,
 		
 		oncleanproject  = function(prj)
