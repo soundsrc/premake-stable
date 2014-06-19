@@ -25,7 +25,6 @@
 		},
 		
 		onsolution = function(sln)
-			premake.generate(sln, "jni/Application.mk", android.solution)
 			premake.generate(sln, "jni/Android.mk", android.androidmk)
 			if not sln.appid then
 				error("Please specify an appid. (i.e. appid \"com.company.appid\")")

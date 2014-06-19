@@ -46,13 +46,6 @@ MODIFICATIONS
 		Android target id (android)
 		eg.
 		androidtargetid("android-8")
-
-	androidapplicationoptions(list):
-		Options to add to Application.mk (android)
-		eg.
-		androidapplicationoptions {
-			"APP_STL := gnustl_static"
-		}
 		
 	assets(filelist):
 		Files to add to the project as resources (iOS)
