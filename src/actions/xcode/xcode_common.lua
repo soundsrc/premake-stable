@@ -801,6 +801,11 @@
 		end
 		
 		_p(4,'GCC_C_LANGUAGE_STANDARD = gnu99;')
+
+		if cfg.flags.CPP11 then
+			_p(4, 'CLANG_CXX_LANGUAGE_STANDARD = "c++0x";')
+			_p(4, 'CLANG_CXX_LIBRARY = "libc++";')
+		end
 		
 		if cfg.flags.NoExceptions then
 			_p(4,'GCC_ENABLE_CPP_EXCEPTIONS = NO;')

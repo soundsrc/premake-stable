@@ -126,7 +126,8 @@
 					Symbols = 1,
 					Unicode = 1,
 					Unsafe = 1,
-					WinMain = 1
+					WinMain = 1,
+					CPP11 = 1,
 				}
 
 				local englishToAmericanSpelling =

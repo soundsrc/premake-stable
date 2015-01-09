@@ -31,6 +31,11 @@
 			export_cflags = export_cflags .. ' ' .. table.concat(cfg.buildoptions, " ")
 			_p(1, "LOCAL_CFLAGS := %s", export_cflags)
 			_p('')
+
+			if cfg.flags.CPP11 then
+				_p(1, "LOCAL_CPPFLAGS := -std=c++11")
+				_p('')
+			end
 			
 			_p(1, "LOCAL_C_INCLUDES := \\\n\t\t%s", table.concat(cfg.includedirs, " \\\n\t\t"))
 			_p('')

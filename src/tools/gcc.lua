@@ -40,6 +40,7 @@
 	{
 		NoExceptions   = "-fno-exceptions",
 		NoRTTI         = "-fno-rtti",
+		CPP11          = "-std=c++11",
 	}
 
 
