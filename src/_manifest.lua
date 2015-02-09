@@ -79,6 +79,11 @@
  		"actions/android/android_solution.lua",
  		"actions/android/android_project.lua",
 
+ 		-- QMake action
+ 		"actions/qmake/_qmake.lua",
+ 		"actions/qmake/qmake_solution.lua",
+ 		"actions/qmake/qmake_project.lua",
+
 		-- Clean action
 		"actions/clean/_clean.lua",
 	}
