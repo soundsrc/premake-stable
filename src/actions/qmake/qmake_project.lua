@@ -3,8 +3,12 @@
 
 	function premake.qmake.project(prj)
 
-		if prj.kind == "WindowedApp" or prj.kind == "ConsoleApp" then
+		if prj.kind == "WindowedApp" then
 			_p(0, 'TEMPLATE = app')
+		elseif prj.kind == "ConsoleApp" then
+			_p(0, 'TEMPLATE = app')
+			_p(0, 'CONFIG += console')
+			_p(0, 'CONFIG -= app_bundle')
 		elseif prj.kind == "StaticLib" or prj.kind == "SharedLib" then
 			_p(0, 'TEMPLATE = lib')
 			_p(0, 'CONFIG += create_prl link_prl')
