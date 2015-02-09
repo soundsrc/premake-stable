@@ -160,7 +160,10 @@
 			end
 
 			if #cfg.prebuildcommands > 0 then
-				--_p(1, 'QMAKE_PRE_LINK += ' .. table.concat(cfg.prebuildcommands,';'))
+				_p(1, 'prebuild.target = prebuild.tmp')
+				_p(1, 'prebuild.commands = ' .. table.concat(cfg.prebuildcommands,';'))
+				_p(1, 'QMAKE_EXTRA_TARGETS += prebuild')
+				_p(1, 'PRE_TARGETDEPS += prebuild.tmp')
 			end
 
 			if #cfg.prelinkcommands > 0 then
