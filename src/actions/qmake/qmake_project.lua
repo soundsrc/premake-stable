@@ -27,6 +27,14 @@
 				
 			end
 
+			if cfg.flags.Qt then
+				_p(1, 'greaterThan(QT_MAJOR_VERSION, 4): QT += widgets')
+			else
+				_p(1, 'CONFIG -= qt')
+				_p(1, 'QT = ')
+				_p('')
+			end
+
 			if cfg.flags.CPP11 then
 				_p(1, 'CONFIG += c++11')
 				_p('')
@@ -34,6 +42,15 @@
 
 			_p(1, 'TARGET = %s', cfg.buildtarget.basename)
 			_p(1, '')
+
+
+			if #cfg.qtmodules > 0 then
+				_p(1, 'QT += \\', v)
+				for _,v in ipairs(cfg.qtmodules) do
+					_p(2, '%s \\', v)
+				end
+				_p(1, '')
+			end
 
 			if next(cfg.defines) ~= nil then
 				_p(1, 'DEFINES += \\', v)

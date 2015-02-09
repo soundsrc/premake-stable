@@ -128,6 +128,7 @@
 					Unsafe = 1,
 					WinMain = 1,
 					CPP11 = 1,
+					Qt = 1,
 				}
 
 				local englishToAmericanSpelling =
@@ -465,6 +466,13 @@
 			allowed = {
 				"true", "false"
 			},
+		},
+
+		-- for qt projects, specify the Qt modules
+		qtmodules =
+		{
+			kind = "list",
+			scope = "config",
 		},
 	}
 
