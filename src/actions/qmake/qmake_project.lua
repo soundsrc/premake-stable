@@ -143,10 +143,15 @@
 			end
 
 			-- system libs
-			local links = premake.getlinks(cfg, "system", "basename")
+			local links = premake.getlinks(cfg, "system", "name")
 			if #links > 0 then
 				for _,v in ipairs(links) do
-					_p(1, 'LIBS += -l' .. v)
+					ext = path.getextension(v)
+					if ext == '.framework' then
+						_p(1, 'LIBS += -framework ' .. path.getbasename(v))
+					else
+						_p(1, 'LIBS += -l' .. path.getbasename(v))
+					end
 				end
 			end
 
