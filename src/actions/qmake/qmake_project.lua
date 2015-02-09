@@ -71,6 +71,7 @@
 			src_files = {}
 			objc_src_files = {}
 			header_files = {}
+			ui_files = {}
 			for _,v in ipairs(cfg.files) do
 				ext = path.getextension(v):lower()
 				if path.iscppfile(v) then
@@ -83,6 +84,18 @@
 				if path.iscppheader(v) then
 					table.insert(header_files, v)
 				end
+
+				if ext == '.ui' then
+					table.insert(ui_files, v)
+				end
+			end
+
+			if next(ui_files) ~= nil then
+				_p(1, 'FORMS += \\', v)
+				for _,v in ipairs(ui_files) do
+					_p(2, '%s \\', v)
+				end
+				_p(1, '')
 			end
 
 			if next(src_files) ~= nil then
