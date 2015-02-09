@@ -23,13 +23,17 @@ MODIFICATIONS
 	- Integrates xcodebuildoptions patch (http://sourceforge.net/p/premake/patches/55/)
 	- Android NDK generator
 	- UnityBuild support
+	- Qt qmake (.pro) generator
 
  Usage:
 	For iOS projects:
-		premake --os=ios xcode4
+		premake4 --os=ios xcode4
 		
 	For Android projects:
-		premake --os=android android
+		premake4 --os=android android
+
+	For Qt projects:
+		premake4 qmake
 
  Added commands to premake:
 	appid(string):
@@ -54,8 +58,15 @@ MODIFICATIONS
 			"assets/*.png"
 		}
 
+	flags:
+		"CPP11" - Enable C++11 settings
+		"Qt"    - Enable Qt support
+
 	folderrefs(filelist):
 		XCode specific. Similar to assets, except link files as folder references (blue folders).
+
+	qtmodules(list):
+		Qt modules to include for qmake projects.
 
 	otherfiles(filelist):
 		Files to be added to the project but NOT compiled (XCode,MSVC)
@@ -81,5 +92,4 @@ MODIFICATIONS
 			"IPHONEOS_DEPLOYMENT_TARGET = 3.2;",
 			"INFOPLIST_FILE = Info.plist;"
 		}
-
 	
