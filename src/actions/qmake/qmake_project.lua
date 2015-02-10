@@ -20,6 +20,8 @@
 			_p(0, 'CONFIG += dll')
 		end
 
+		_p(0, 'OBJECTS_DIR = $${OUT_PWD}/objs/' .. prj.name)
+
 		-- List the build configurations, and the settings for each
 		for cfg in premake.eachconfig(prj) do
 
