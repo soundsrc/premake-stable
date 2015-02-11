@@ -26,9 +26,9 @@
 		for cfg in premake.eachconfig(prj) do
 
 			if cfg.name:lower() == "debug" then
-				_p(0, 'CONFIG(debug) {')
+				_p(0, 'CONFIG(debug, debug|release): {')
 			elseif cfg.name:lower() == "release" then
-				_p(0, 'CONFIG(!debug|release) {')
+				_p(0, 'else: {')
 			else
 				
 			end
