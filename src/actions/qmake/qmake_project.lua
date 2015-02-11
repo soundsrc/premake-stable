@@ -74,6 +74,14 @@
 				_p(1, '')
 			end
 
+			if next(cfg.libdirs) ~= nil then
+				_p(1, 'LIBS += \\', v)
+				for _,v in ipairs(cfg.libdirs) do
+					_p(2, '-L$${PWD}/%s \\', v)
+				end
+				_p(1, '')
+			end
+
 			src_files = {}
 			objc_src_files = {}
 			header_files = {}
@@ -138,8 +146,6 @@
 
 			if #lib_deps > 0 then
 				for _,v in ipairs(lib_deps) do
-					_p(1, 'PRE_TARGETDEPS += $$OUT_PWD/lib' .. v .. '.a')
-
 					_p(1, 'win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/release/ -l' .. v)
 					_p(1, 'else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/debug/ -l' .. v)
 					_p(1, 'else:unix: LIBS += -L$$OUT_PWD/ -l' .. v)
