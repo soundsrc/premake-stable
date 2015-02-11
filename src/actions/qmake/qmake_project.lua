@@ -74,6 +74,13 @@
 				_p(1, '')
 			end
 
+			if cfg.name:lower() == "debug" then
+				_p(1, 'win32: LIBS += -L$$OUT_PWD/debug')
+			else
+				_p(1, 'win32: LIBS += -L$$OUT_PWD/release')
+			end
+			_p(1, 'else:unix: LIBS += -L$$OUT_PWD')
+
 			if next(cfg.libdirs) ~= nil then
 				_p(1, 'LIBS += \\', v)
 				for _,v in ipairs(cfg.libdirs) do
@@ -146,13 +153,10 @@
 
 			if #lib_deps > 0 then
 				for _,v in ipairs(lib_deps) do
-					_p(1, 'win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/release/ -l' .. v)
-					_p(1, 'else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/debug/ -l' .. v)
-					_p(1, 'else:unix: LIBS += -L$$OUT_PWD/ -l' .. v)
-					--INCLUDEPATH += $$PWD/
-					--DEPENDPATH += $$PWD/
+					_p(1, 'LIBS += -l' .. v)
 				end
 			end
+			_p(0, '')
 
 			-- system libs
 			local links = premake.getlinks(cfg, "system", "name")
