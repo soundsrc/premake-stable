@@ -129,7 +129,7 @@
 
 			if next(objc_src_files) ~= nil then
 				_p(1, 'OBJECTIVE_SOURCES += \\', v)
-				for _,v in ipairs(src_files) do
+				for _,v in ipairs(objc_src_files) do
 					_p(2, '%s \\', v)
 				end
 				_p(1, '')
