@@ -11,8 +11,8 @@
 			_p(0, 'CONFIG -= app_bundle')
 		elseif prj.kind == "StaticLib" or prj.kind == "SharedLib" then
 			_p(0, 'TEMPLATE = lib')
-			_p(0, 'CONFIG += create_prl link_prl')
 		end
+		_p(0, 'CONFIG -= depend_includepath')
 
 		if prj.kind == "StaticLib" then
 			_p(0, 'CONFIG += staticlib')
