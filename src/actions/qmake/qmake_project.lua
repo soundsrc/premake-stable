@@ -84,7 +84,11 @@
 			if next(cfg.libdirs) ~= nil then
 				_p(1, 'LIBS += \\', v)
 				for _,v in ipairs(cfg.libdirs) do
-					_p(2, '-L$${PWD}/%s \\', v)
+					if string.sub(v, 0, 1) == '/' then
+						_p(2, '-L%s \\', v)
+					else
+						_p(2, '-L$${PWD}/%s \\', v)
+					end
 				end
 				_p(1, '')
 			end
