@@ -150,9 +150,15 @@
 			local lib_deps = {}
 			local deps = premake.getdependencies(prj)
 			if #deps > 0 then
+
+				_p(1, 'PRE_TARGETDEPS += \\')
 				for _, depprj in ipairs(deps) do
 					table.insert(lib_deps, depprj.name)
+
+					target = premake.gettarget(cfg.name, "link", "posix", "posix", os.get())
+					_p(2, '%s \\', target.fullpath)
 				end
+				_p(1, '')
 			end
 
 			if #lib_deps > 0 then
