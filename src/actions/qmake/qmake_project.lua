@@ -155,7 +155,7 @@
 				for _, depprj in ipairs(deps) do
 					table.insert(lib_deps, depprj.name)
 
-					target = premake.gettarget(cfg.name, "link", "posix", "posix", os.get())
+					target = premake.gettarget(depprj, "link", "posix", "posix", os.get())
 					_p(2, '%s \\', target.fullpath)
 				end
 				_p(1, '')
