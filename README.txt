@@ -36,20 +36,6 @@ MODIFICATIONS
 		premake4 qmake
 
  Added commands to premake:
-	appid(string):
-		Sets the appid (android)
-		eg.
-		appid("com.company.appid")
-
-	androidactivity(string):
-		Android activity name (android)
-		eg.
-		androidactivity("MainActivity")
-
-	androidtargetid(string):
-		Android target id (android)
-		eg.
-		androidtargetid("android-8")
 		
 	assets(filelist):
 		Files to add to the project as resources (iOS)

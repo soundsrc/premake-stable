@@ -411,28 +411,7 @@
 			kind = "list",
 			scope = "project",
 		},
-		
-		-- mobile appid, i.e. com.domain.appid
-		appid =
-		{
-			kind = "string",
-			scope = "solution",
-		},
 
-		-- android specifics
-		androidactivity =
-		{
-			kind = "string",
-			scope = "solution",
-		},
-		
-		-- target id, i.e. android-8
-		androidtargetid =
-		{
-			kind = "string",
-			scope = "solution",
-		},
-		
 		-- similar to files except these files are marked as assets
 		-- used mainly for XCode projects
 		assets =
