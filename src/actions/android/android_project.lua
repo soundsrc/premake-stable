@@ -16,9 +16,9 @@
 			_p(0, 'ifeq ($(config),%s)', cfg.name)
 			_p('')
 
-			_p(1, 'LOCAL_MODULE := %s', cfg.buildtarget.basename)
+			_p(1, 'LOCAL_MODULE := %s', cfg.project.name)
 			if prj.kind == "StaticLib" or prj.kind == "SharedLib" then
-				_p(1, 'LOCAL_MODULE_FILENAME := %s%s%s', cfg.buildtarget.prefix, cfg.buildtarget.basename, cfg.buildtarget.suffix)
+				_p(1, 'LOCAL_MODULE_FILENAME := %s%s%s', cfg.buildtarget.prefix, cfg.project.name, cfg.buildtarget.suffix)
 			else
 				_p(1, 'LOCAL_MODULE_FILENAME := %s', cfg.buildtarget.basename)
 			end
