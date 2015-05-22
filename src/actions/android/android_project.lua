@@ -77,7 +77,13 @@
 
 			local links = premake.getlinks(cfg, "system", "basename")
 			if #links > 0 then
-				_p(1, 'LOCAL_LDLIBS := \\\n\t\t-l%s', table.concat(links, " \\\n\t\t-l"))
+				_p(1, 'LOCAL_LDLIBS := \\')
+				for  _, dir in ipairs(cfg.libdirs) do
+					_p(2, '-L%s \\', dir)
+				end
+				for  _, link in ipairs(links) do
+					_p(2, '-l%s \\', link)
+				end
 			end
 			_p('')
 
