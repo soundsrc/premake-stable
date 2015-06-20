@@ -21,6 +21,9 @@
 		end
 
 		_p(0, 'OBJECTS_DIR = $${OUT_PWD}/objs/' .. prj.name)
+		_p(0, 'MOC_DIR = $${OUT_PWD}/mocs/' .. prj.name)
+		_p(0, 'UI_DIR = $${OUT_PWD}/uis/' .. prj.name)
+		_p(0, 'INCLUDEPATH += $${OUT_PWD}/uis/' .. prj.name)
 
 		-- List the build configurations, and the settings for each
 		for cfg in premake.eachconfig(prj) do
