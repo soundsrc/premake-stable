@@ -100,6 +100,8 @@
 			objc_src_files = {}
 			header_files = {}
 			ui_files = {}
+			rc_files = {}
+
 			for _,v in ipairs(cfg.files) do
 				ext = path.getextension(v):lower()
 				if path.iscppfile(v) then
@@ -116,10 +118,14 @@
 				if ext == '.ui' then
 					table.insert(ui_files, v)
 				end
+
+				if ext == '.qrc' then
+					table.insert(rc_files, v)
+				end
 			end
 
 			if next(ui_files) ~= nil then
-				_p(1, 'FORMS += \\', v)
+				_p(1, 'FORMS += \\')
 				for _,v in ipairs(ui_files) do
 					_p(2, '%s \\', v)
 				end
@@ -127,7 +133,7 @@
 			end
 
 			if next(src_files) ~= nil then
-				_p(1, 'SOURCES += \\', v)
+				_p(1, 'SOURCES += \\')
 				for _,v in ipairs(src_files) do
 					_p(2, '%s \\', v)
 				end
@@ -135,7 +141,7 @@
 			end
 
 			if next(objc_src_files) ~= nil then
-				_p(1, 'OBJECTIVE_SOURCES += \\', v)
+				_p(1, 'OBJECTIVE_SOURCES += \\')
 				for _,v in ipairs(objc_src_files) do
 					_p(2, '%s \\', v)
 				end
@@ -143,8 +149,16 @@
 			end
 
 			if next(header_files) ~= nil then
-				_p(1, 'HEADERS += \\', v)
+				_p(1, 'HEADERS += \\')
 				for _,v in ipairs(header_files) do
+					_p(2, '%s \\', v)
+				end
+				_p(1, '')
+			end
+
+			if next(rc_files) ~= nil then
+				_p(1, 'RESOURCES += \\')
+				for _,v in ipairs(rc_files) do
 					_p(2, '%s \\', v)
 				end
 				_p(1, '')
